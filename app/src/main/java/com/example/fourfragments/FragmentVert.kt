@@ -1,13 +1,11 @@
 package com.example.fourfragments
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 
 class FragmentVert : Fragment() {
@@ -37,10 +35,8 @@ class FragmentVert : Fragment() {
     }
 
     fun flash() {
-        view?.setBackgroundColor(Color.WHITE)
-        Handler(Looper.getMainLooper()).postDelayed({
-            view?.setBackgroundColor(resources.getColor(R.color.holo_green_light, null))
-        }, 500)
+        val animation = AnimationUtils.loadAnimation(context, R.anim.flash)
+        view?.startAnimation(animation)
     }
 
     override fun onDetach() {

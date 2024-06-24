@@ -6,6 +6,7 @@ import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.google.android.material.snackbar.Snackbar
 import kotlin.random.Random
 
 class SimonGame : AppCompatActivity(), FragmentVert.OnColorClickListener, FragmentRouge.OnColorClickListener,
@@ -52,10 +53,11 @@ class SimonGame : AppCompatActivity(), FragmentVert.OnColorClickListener, Fragme
     }
 
     private fun addNewColorToSequence() {
-        sequence.add(random.nextInt(4))
+        sequence.add(random.nextInt(4)) // Ajoute une couleur aléatoire (0 à 3) à la séquence
     }
 
     private fun playSequence() {
+        userSequence.clear()
         for (i in sequence.indices) {
             handler.postDelayed({
                 flashColor(sequence[i])
@@ -73,23 +75,31 @@ class SimonGame : AppCompatActivity(), FragmentVert.OnColorClickListener, Fragme
     }
 
     override fun onColorClick(colorIndex: Int) {
-        checkUserInput(colorIndex)
-    }
-
-    private fun checkUserInput(colorIndex: Int) {
         userSequence.add(colorIndex)
         if (userSequence[userSequence.size - 1] != sequence[userSequence.size - 1]) {
             // L'utilisateur s'est trompé
             endGame()
         } else if (userSequence.size == sequence.size) {
             // L'utilisateur a complété la séquence correctement
-            userSequence.clear()
-            addNewColorToSequence()
-            handler.postDelayed({ playSequence() }, 1000)
+            showSuccessMessage()
+            handler.postDelayed({
+                addNewColorToSequence()
+                playSequence()
+            }, 1000)
         }
     }
 
+    private fun showSuccessMessage() {
+        Snackbar.make(findViewById(android.R.id.content), "Bien joué!", Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun showErrorMessage() {
+        Snackbar.make(findViewById(android.R.id.content), "Mauvaise réponse. Essayez encore.", Snackbar.LENGTH_SHORT).show()
+    }
+
     private fun endGame() {
-        // Affichez un message de fin de jeu et redémarrez si nécessaire
+        showErrorMessage()
+        // Pour simplifier, nous redémarrons le jeu automatiquement ici
+        handler.postDelayed({ startGame() }, 2000)
     }
 }
