@@ -41,7 +41,6 @@ class SimonGame : AppCompatActivity(), FragmentVert.OnColorClickListener, Fragme
 
         fragmentTransaction.commit()
 
-        // Démarrer le jeu
         startGame()
     }
 
@@ -53,7 +52,7 @@ class SimonGame : AppCompatActivity(), FragmentVert.OnColorClickListener, Fragme
     }
 
     private fun addNewColorToSequence() {
-        sequence.add(random.nextInt(4)) // Ajoute une couleur aléatoire (0 à 3) à la séquence
+        sequence.add(random.nextInt(4))
     }
 
     private fun playSequence() {
@@ -77,10 +76,8 @@ class SimonGame : AppCompatActivity(), FragmentVert.OnColorClickListener, Fragme
     override fun onColorClick(colorIndex: Int) {
         userSequence.add(colorIndex)
         if (userSequence[userSequence.size - 1] != sequence[userSequence.size - 1]) {
-            // L'utilisateur s'est trompé
             endGame()
         } else if (userSequence.size == sequence.size) {
-            // L'utilisateur a complété la séquence correctement
             showSuccessMessage()
             handler.postDelayed({
                 addNewColorToSequence()
@@ -99,7 +96,6 @@ class SimonGame : AppCompatActivity(), FragmentVert.OnColorClickListener, Fragme
 
     private fun endGame() {
         showErrorMessage()
-        // Pour simplifier, nous redémarrons le jeu automatiquement ici
         handler.postDelayed({ startGame() }, 2000)
     }
 }
