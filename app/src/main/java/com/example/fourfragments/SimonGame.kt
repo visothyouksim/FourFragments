@@ -3,6 +3,7 @@ package com.example.fourfragments
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -21,6 +22,8 @@ class SimonGame : AppCompatActivity(), FragmentVert.OnColorClickListener, Fragme
     private lateinit var fragmentRouge: FragmentRouge
     private lateinit var fragmentBleu: FragmentBleu
     private lateinit var fragmentJaune: FragmentJaune
+
+    private var score = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,10 +48,12 @@ class SimonGame : AppCompatActivity(), FragmentVert.OnColorClickListener, Fragme
     }
 
     private fun startGame() {
+        score = 0
         sequence.clear()
         userSequence.clear()
         addNewColorToSequence()
         playSequence()
+        updateScoreDisplay()
     }
 
     private fun addNewColorToSequence() {
@@ -78,6 +83,8 @@ class SimonGame : AppCompatActivity(), FragmentVert.OnColorClickListener, Fragme
         if (userSequence[userSequence.size - 1] != sequence[userSequence.size - 1]) {
             endGame()
         } else if (userSequence.size == sequence.size) {
+            score++
+            updateScoreDisplay()
             showSuccessMessage()
             handler.postDelayed({
                 addNewColorToSequence()
@@ -97,5 +104,9 @@ class SimonGame : AppCompatActivity(), FragmentVert.OnColorClickListener, Fragme
     private fun endGame() {
         showErrorMessage()
         handler.postDelayed({ startGame() }, 2000)
+    }
+
+    private fun updateScoreDisplay() {
+        findViewById<TextView>(R.id.score_text_view).text = "Score: $score"
     }
 }
