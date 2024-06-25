@@ -112,12 +112,13 @@ class SimonGame : AppCompatActivity(), FragmentVert.OnColorClickListener, Fragme
 
     // Fonction pour afficher un message de succès
     private fun showSuccessMessage() {
-        Snackbar.make(findViewById(android.R.id.content), "Bien joué!", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(findViewById(android.R.id.content), "Bien joué !", Snackbar.LENGTH_SHORT).show()
     }
 
     // Fonction pour afficher un message d'erreur
     private fun showErrorMessage() {
-        Snackbar.make(findViewById(android.R.id.content), "Mauvaise réponse. Essayez encore.", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(findViewById(android.R.id.content), "Mauvaise réponse.. T'es nul.. Manges du poisson.", Snackbar
+            .LENGTH_SHORT).show()
     }
 
     // Fonction pour terminer le jeu
